@@ -15,6 +15,16 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
   private pool: Pool;
 
   onModuleInit() {
+    // Thiếu biến này thì `pg` không báo lỗi mà lặng lẽ đi tìm database ở
+    // localhost:5432 — rồi mỗi request đều chết với ECONNREFUSED ::1:5432,
+    // rất khó hiểu. Chặn ngay từ lúc khởi động cho rõ ràng.
+    if (!process.env.DATABASE_URL) {
+      throw new Error(
+        'Thiếu biến môi trường DATABASE_URL. ' +
+          'Trên máy: kiểm tra apps/api/.env. Trên Render: tab Environment.',
+      );
+    }
+
     this.pool = new Pool({
       connectionString: process.env.DATABASE_URL,
       max: 10, // tối đa 10 kết nối cùng lúc
