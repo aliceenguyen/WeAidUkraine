@@ -1,0 +1,12 @@
+{
+  "name": "weaidukraine",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "api:dev": "npm run dev -w apps/api",
+    "web:dev": "npm run dev -w apps/web",
+    "db:migrate": "npm run db:migrate -w apps/api",
+    "db:seed": "npm run db:seed -w apps/api",
+    "db:reset": "npm run db:reset -w apps/api"
+  }
+}
